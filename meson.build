@@ -8,7 +8,6 @@ project(
 )
 
 sources = [
-    'src/glad.cpp',
     'src/main.cpp',
     'src/shader_binary.cpp',
 ]
@@ -32,9 +31,11 @@ foreach shader : shaders
 endforeach
 
 dependencies = [
+    subproject('glad').get_variable('glad_dep'),
     dependency('GL'),
     dependency('glfw3'),
     dependency('glm'),
+    dependency('fmt'),
 ]
 
 link_args = []

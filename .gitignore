@@ -1,2 +1,4 @@
-build
-vitore*
+build/
+subprojects/*
+!subprojects/*.wrap
+!subprojects/glad
