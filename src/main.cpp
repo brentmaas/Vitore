@@ -55,10 +55,16 @@ int main(int argc, char** argv){
     glfwSwapInterval(1);
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback([](GLenum type, GLenum, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* user) {
+        std::cerr << "[OpenGL] ";
+        std::cerr.write(message, length) << '\n';
+    }, nullptr);
     ShaderBinary shaders[] = {
-            {shaders_shader_vert, sizeof(shaders_shader_vert), GL_VERTEX_SHADER},
-            {shaders_shader_frag, sizeof(shaders_shader_frag), GL_FRAGMENT_SHADER}
-        };
+        {shaders_shader_vert, sizeof(shaders_shader_vert), GL_VERTEX_SHADER},
+        {shaders_shader_frag, sizeof(shaders_shader_frag), GL_FRAGMENT_SHADER}
+    };
 
     GLuint program = loadShaderProgram(shaders);
     glUseProgram(program);
