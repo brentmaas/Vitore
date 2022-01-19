@@ -2,7 +2,7 @@
 
 //in vec4 fragmentColour;
 
-out vec4 colour;
+layout(location = 0) out vec4 colour;
 
 void main(){
     colour = vec4(1, 1, 1, 1); //color = fragmentColour;
