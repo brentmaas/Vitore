@@ -9,7 +9,7 @@ project(
 
 sources = [
     'src/main.cpp',
-    'src/shader_binary.cpp',
+    'src/shader.cpp',
 ]
 
 shaders = [
