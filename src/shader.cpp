@@ -51,10 +51,11 @@ ShaderProgram::ShaderProgram(std::span<const ShaderSource> sources):
         glGetProgramInfoLog(this->program, info_log_length, NULL, msg.data());
         throw ShaderProgram::LinkError{std::move(msg)};
     }
-
-    for (const auto& shader : shaders) {
-        glDetachShader(this->program, shader);
-    }
+    
+    //AMD drivers bad
+    //for (const auto& shader : shaders) {
+    //    glDetachShader(this->program, shader);
+    //}
 }
 
 void ShaderProgram::use() const {

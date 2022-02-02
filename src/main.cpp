@@ -26,6 +26,10 @@ void run(GLFWwindow* window, int width, int height) {
     glm::mat4 view = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
     glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
+    //Matrix components in vertex shader
+    /*for(size_t i = 0;i < 4;++i) for(size_t j = 0;j < 4;++j){
+        fmt::print(std::cout, "{}\n", mvp[i][j]);
+    }*/
     GLuint mvpID = glGetUniformLocation(program, "MVP");
     glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
 
@@ -40,17 +44,17 @@ void run(GLFWwindow* window, int width, int height) {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
     float vertex[] = {-2, -2, 0, 1, 2, -2, 0, 1, 0, 2, 0, 1};
-    //float colour[] = {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1};
+    float colour[] = {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1};
 
     GLuint vertexBuffer;
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, vertexBuffer);
     glBufferData(GL_SHADER_STORAGE_BUFFER, 12 * sizeof(float), vertex, GL_STATIC_DRAW);
 
-    /*GLuint colourBuffer;
+    GLuint colourBuffer;
     glGenBuffers(1, &colourBuffer);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, colourBuffer);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, 12 * sizeof(float), colour, GL_STATIC_DRAW);*/
+    glBufferData(GL_SHADER_STORAGE_BUFFER, 12 * sizeof(float), colour, GL_STATIC_DRAW);
 
     while(!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -62,10 +66,10 @@ void run(GLFWwindow* window, int width, int height) {
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-        //glEnableVertexAttribArray(1);
-        //glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
-        //glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-        glDrawArrays(GL_POINTS, 0, 3);
+        glEnableVertexAttribArray(1);
+        glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
@@ -103,9 +107,9 @@ int main(int argc, char** argv) {
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        window = glfwCreateWindow(width,height, "OpenGL 4.6 Triangle", monitor, NULL);
+        window = glfwCreateWindow(width,height, "SPIR-V test", monitor, NULL);
     } else {
-        window = glfwCreateWindow(width, height, "OpenGL 4.6 Triangle", NULL, NULL);
+        window = glfwCreateWindow(width, height, "SPIR-V test", NULL, NULL);
     }
 
     if (window == NULL) {
